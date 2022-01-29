@@ -1,22 +1,21 @@
-package gocmd
+package mv
 
 import (
 	"io/fs"
+	"log"
 	"os"
 	"sort"
 )
-func Ls(path string, option map[string]string)([]fs.FileInfo, error) {
+
+func Ls(path string, option map[string]string) {
 	dir, err := readDir(path)
 	if err != nil {
-		return nil, err
-
+		log.Fatal(err)
 	}
-	for  _, v :=  range dir {
-		printDir(v, option)	
+	for _, v := range dir {
+		printDir(v, option)
 	}
-	return dir, nil
 
-	
 }
 func readDir(dirname string) ([]fs.FileInfo, error) {
 	f, err := os.Open(dirname)
@@ -34,11 +33,10 @@ func readDir(dirname string) ([]fs.FileInfo, error) {
 func printDir(file fs.FileInfo, option map[string]string) {
 	fileName := file.Name()
 
-
 	// 不可視ファイルの表示制御
 	if _, ok := option["-a"]; !ok {
 		firstchar := fileName[0:1]
-		if firstchar=="." {
+		if firstchar == "." {
 			return
 		}
 	}
@@ -50,7 +48,5 @@ func printDir(file fs.FileInfo, option map[string]string) {
 	}
 
 	println(file.Name())
-	
-	
 
 }

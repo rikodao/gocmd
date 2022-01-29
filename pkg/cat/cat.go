@@ -1,17 +1,21 @@
-package gocmd
+package cat
 
 import (
 	"log"
 	"os"
 )
-func Cat(dirname string)  {
-	data,err := readFile(dirname)
+
+type Params struct {
+	Dirname    string
+}
+
+func Cat(params Params) {
+	data, err := readFile(params.Dirname)
 	if err != nil {
 		log.Fatal(err)
 	}
 	printFile(data)
-	
-	
+
 }
 func readFile(dirname string) ([]byte, error) {
 	data, err := os.ReadFile(dirname)
@@ -21,6 +25,6 @@ func readFile(dirname string) ([]byte, error) {
 
 	return data, nil
 }
-func printFile(data []byte)  {
+func printFile(data []byte) {
 	os.Stdout.Write(data)
 }
